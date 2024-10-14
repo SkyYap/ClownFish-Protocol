@@ -18,16 +18,12 @@ export default function Page() {
     <div className="flex h-full w-96 max-w-full flex-col px-1 md:w-[1008px]">
       <section className="mt-6 mb-6 flex w-full flex-col md:flex-row">
         <div className="flex w-full flex-row items-center justify-between gap-2 md:gap-0">
-            <ClownFishSvg />
-          <div className="flex items-center gap-3">
-            <SignupButton />
-            {!address && <LoginButton />}
-          </div>
+          {/* Remove ClownFishSvg, SignupButton, and LoginButton from here */}
         </div>
       </section>
 
       <section className="templateSection flex w-full flex-col items-center justify-center gap-4 rounded-xl px-2 py-4 md:grow">
-       <StakeWidget />
+        <StakeWidget />
         {address ? (
           <TransactionWrapper address={address} />
         ) : (
