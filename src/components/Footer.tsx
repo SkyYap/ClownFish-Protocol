@@ -19,7 +19,7 @@ const docLinks = [
 
 export default function Footer() {
   return (
-    <section className="mt-auto mb-2 flex w-full flex-col flex-col-reverse justify-between gap-2 md:mt-8 md:mb-6 md:flex-row">
+    <section className="mt-auto mb-2 flex w-full flex-row justify-between gap-2 md:mt-8 md:mb-6">
       <aside className="flex items-center pt-2 md:pt-0">
         <h3 className="mr-2 mb-2 text-m md:mb-0">
           Built with love by{' '}
@@ -34,7 +34,7 @@ export default function Footer() {
           </a>
         </h3>
       </aside>
-      <ul className="mt-4 flex max-w-full flex-col flex-wrap justify-center gap-3 md:mt-0 md:flex-row md:justify-start md:gap-6">
+      <ul className="flex max-w-full flex-row flex-wrap justify-center gap-3 md:mt-0 md:justify-start md:gap-6">
         {docLinks.map(({ href, title }) => (
           <li className="flex" key={href}>
             <a
