@@ -1,33 +1,62 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import { useAccount, useBalance } from 'wagmi';
-import { formatEther } from 'viem';
+import { formatEther, parseEther } from 'viem';
+import type { Address, ContractFunctionParameters } from 'viem';
 import { TokenChip } from '@coinbase/onchainkit/token';
+import {
+  Transaction,
+  TransactionButton,
+  TransactionStatus,
+  TransactionStatusAction,
+  TransactionStatusLabel,
+} from '@coinbase/onchainkit/transaction';
+import type {
+  TransactionError,
+  TransactionResponse,
+} from '@coinbase/onchainkit/transaction';
 import '@coinbase/onchainkit/styles.css';
 import { TokenData, TokenType } from '../tokenchip';
+import { stakeContractAddress, stakeABI, OPTIMISM_SEPOLIA_CHAIN_ID } from '../stake';
 
-const StakeWidget: React.FC = () => {
-  const [amount, setAmount] = useState<string>('');
+interface StakeWidgetProps {
+  amount: string;
+  onAmountChange: (newAmount: string) => void;
+}
+
+export default function StakeWidget({ amount, onAmountChange }: StakeWidgetProps) {
   const [tokenType, setTokenType] = useState<TokenType>('ETH');
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
 
-  const handleStake = () => {
-    if (!amount || parseFloat(amount) <= 0) return;
-    console.log(`Staking ${amount} ${tokenType}`);
-    // Here you would typically interact with a contract
-    // For now, we'll just log the action
-  };
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === '' || (/^\d*\.?\d*$/.test(value) && parseFloat(value) >= 0)) {
-      setAmount(value);
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (newValue === '' || (/^\d*\.?\d*$/.test(newValue) && parseFloat(newValue) >= 0)) {
+      onAmountChange(newValue);
+      // console.log('newValue', newValue);
     }
   };
 
   const handleTokenTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTokenType(e.target.value as TokenType);
   };
+
+  const handleError = (err: TransactionError) => {
+    console.error('Staking error:', err);
+  };
+
+  const handleSuccess = (response: TransactionResponse) => {
+    console.log('Successfully staked', response);
+  };
+
+  const contracts = [
+    {
+      address: stakeContractAddress,
+      abi: stakeABI,
+      functionName: 'stake',
+      value: parseEther(amount || '0'),
+    },
+  ] as unknown as ContractFunctionParameters[];
 
   return (
     <div className="w-4/5 mx-auto p-4 border rounded-lg shadow-md">
@@ -58,18 +87,18 @@ const StakeWidget: React.FC = () => {
         </div>
       </div>
       <div className="mb-4">
-        <label htmlFor="amount" className="block mb-2">Amount</label>
+        <label htmlFor="value" className="block mb-2">Amount</label>
         <div className="relative">
           <input
-            id="amount"
+            id="value"
             type="text"
             value={amount}
-            onChange={handleAmountChange}
+            onChange={handleValueChange}
             className="w-full p-2 pr-16 border rounded"
             placeholder="0.0"
           />
           <button
-            onClick={() => setAmount(balance ? formatEther(balance.value) : '0')}
+            onClick={() => onAmountChange(balance ? formatEther(balance.value) : '0')}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-300 text-gray-700 px-2 py-1 rounded text-sm hover:bg-gray-400"
           >
             Max
@@ -77,15 +106,20 @@ const StakeWidget: React.FC = () => {
         </div>
       </div>
       <p className="mb-4">Balance: {balance ? formatEther(balance.value) : '0'} {tokenType}</p>
-      <button
-        onClick={handleStake}
-        disabled={!amount || parseFloat(amount) <= 0}
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-300"
+      <Transaction
+        contracts={contracts}
+        chainId={OPTIMISM_SEPOLIA_CHAIN_ID}
+        onError={handleError}
+        onSuccess={handleSuccess}
       >
-        Stake {tokenType}
-      </button>
+        <TransactionButton className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-300">
+          {/* {`Stake ${tokenType}`} */}
+        </TransactionButton>
+        <TransactionStatus>
+          <TransactionStatusLabel />
+          <TransactionStatusAction />
+        </TransactionStatus>
+      </Transaction>
     </div>
   );
-};
-
-export default StakeWidget;
+}

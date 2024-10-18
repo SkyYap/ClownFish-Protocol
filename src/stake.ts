@@ -1,17 +1,11 @@
 export const OPTIMISM_SEPOLIA_CHAIN_ID = 11155420;
-export const stakeContractAddress = '0x9FFdD45cc3A9C3844405449A27E33519A8DF8c8a';
+export const stakeContractAddress = '0xFd9738619115cd4BcB8311597D5C3Df7eBf18488';
 export const stakeABI = [
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-    ],
-    name: 'mint',
-    outputs: [],
-    stateMutability: 'public',
-    type: 'function',
+    "inputs": [],
+    "name": "stake",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
   },
 ] as const;
