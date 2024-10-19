@@ -6,7 +6,7 @@ This protocol utilizes Chainlink's Cross-Chain Interoperability Protocol (CCIP) 
 
 Screenshot of the frontend:
 ![Stake Page](./img/StakePage.png)
-![Mint Page](./img/MintPage.png)
+![Claim Page](./img/ClaimPage.png)
 
 > **Note**
 >
