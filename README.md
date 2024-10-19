@@ -34,7 +34,10 @@ Current ETH mainnet is flooded with LST and LRT, creating a fragmented liquidity
 
 Below is the screenshot of the CCIP cross-chain cfETH minting mechanism:
 
+The end-user calls the dApp (SourceMinter.sol). For cfETH, the end-user calls stake() and mint() functions. It is then passed to the CCIP router on Ethereum Mainnet. The CCIP router will send the message to the DestinationMinter.sol on Base chain. The DestinationMinter.sol will then call the mint() function of the MyToken.sol on Base chain and thus send the cfETH to the end-user.
+
 ![Cross Chain Minting](./img/CCIP.png)
+![Canva Link](https://www.canva.com/design/DAGUC14lmwg/pruNGBz57hHyrD16xp2qEg/edit?utm_content=DAGUC14lmwg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## Why ClownFish Protocol?
 
