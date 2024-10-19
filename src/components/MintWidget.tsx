@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
-import { useAccount, useBalance } from 'wagmi';
-import { formatEther } from 'viem';
+import { useState, useEffect } from 'react';
+import { useAccount, useBalance, useReadContract } from 'wagmi';
+import { formatEther, parseEther } from 'viem';
 import {
   Transaction,
   TransactionButton,
@@ -15,22 +15,50 @@ import type {
 } from '@coinbase/onchainkit/transaction';
 import type { ContractFunctionParameters } from 'viem';
 import {
-  BASE_SEPOLIA_CHAIN_ID,
+  // Allow to use OPTIMISM_SEPOLIA_CHAIN_ID from getStakedBalance since it is same
+  // OPTIMISM_SEPOLIA_CHAIN_ID,
   mintABI,
   mintContractAddress,
-} from '../constants';
+  WEIRD_CHAINLINK_BASE_SEPOLIA_CHAIN_ID,
+} from '../mint';
+
+import {
+  OPTIMISM_SEPOLIA_CHAIN_ID,
+  stakeContractAddress,
+  getStakedBalanceABI,
+} from '../getStakedBalance';
 
 export default function MintWidget() {
   const { address } = useAccount();
   const [amount, setAmount] = useState('');
   const { data: balance } = useBalance({ address });
+  const [stakedBalance, setStakedBalance] = useState<bigint | null>(null);
+
+  const { data: stakedBalanceData } = useReadContract({
+    address: stakeContractAddress,
+    abi: getStakedBalanceABI,
+    functionName: 'getStakedBalance',
+    args: [address],
+    chainId: OPTIMISM_SEPOLIA_CHAIN_ID,
+  });
+
+  useEffect(() => {
+    if (stakedBalanceData) {
+      setStakedBalance(stakedBalanceData as bigint);
+    }
+  }, [stakedBalanceData]);
 
   const contracts = [
     {
       address: mintContractAddress,
       abi: mintABI,
       functionName: 'mint',
-      args: [address],
+      args: [
+        WEIRD_CHAINLINK_BASE_SEPOLIA_CHAIN_ID, // destinationChainSelector
+        '0xEF2F13cF6B7da9b3439c20844bd4483a88c50743', // destination contract receiver
+        parseEther(amount || '0').toString(), // amount as string
+        '0', // payFeesIn (0 for PayFeesIn.Native, as string)
+      ],
     },
   ] as unknown as ContractFunctionParameters[];
 
@@ -64,10 +92,12 @@ export default function MintWidget() {
           </button>
         </div>
       </div>
-      <p className="mb-4">Balance: {balance ? formatEther(balance.value) : '0'} cfETH</p>
+      <p className="mb-4">
+        Amount can be minted: {stakedBalance ? formatEther(stakedBalance) : '0'} cfETH
+      </p>
       <Transaction
         contracts={contracts}
-        chainId={BASE_SEPOLIA_CHAIN_ID}
+        chainId={OPTIMISM_SEPOLIA_CHAIN_ID}
         onError={handleError}
         onSuccess={handleSuccess}
       >

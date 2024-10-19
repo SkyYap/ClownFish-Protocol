@@ -1,5 +1,7 @@
-export const BASE_SEPOLIA_CHAIN_ID = 11155420;
-export const mintContractAddress = '0x50Ca92f556553448FA75AD1cDc358622fd4b0b55';
+// Weird Chain Selector but obtained from Chainlink
+export const WEIRD_CHAINLINK_BASE_SEPOLIA_CHAIN_ID = 10344971235874465080;
+export const OPTIMISM_SEPOLIA_CHAIN_ID = 11155420;
+export const mintContractAddress = '0xFd9738619115cd4BcB8311597D5C3Df7eBf18488';
 export const mintABI = [
   {
     "inputs": [
@@ -28,5 +30,5 @@ export const mintABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
-  }
+  },
 ] as const;

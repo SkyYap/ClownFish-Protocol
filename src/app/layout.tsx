@@ -37,7 +37,7 @@ export default function RootLayout({
 }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="flex flex-col items-center justify-center">
+      <body className="flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/19.jpg')" }}>
         <OnchainProviders>
           <NavBar />
           <main className="container mx-auto mt-4">

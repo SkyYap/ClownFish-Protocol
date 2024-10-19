@@ -59,7 +59,7 @@ export default function StakeWidget({ amount, onAmountChange }: StakeWidgetProps
   ] as unknown as ContractFunctionParameters[];
 
   return (
-    <div className="w-4/5 mx-auto p-4 border rounded-lg shadow-md">
+    <div className="w-4/5 mx-auto p-4 border rounded-lg shadow-md ">
       <h2 className="text-xl font-bold mb-4">Stake Your Tokens</h2>
       <div className="mb-4">
         <label htmlFor="tokenType" className="block mb-2">Select Token Type</label>
