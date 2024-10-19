@@ -114,6 +114,7 @@ npx hardhat compile
 
 3. Setup environment variables
 
+```
 PRIVATE_KEY=
 ETHEREUM_SEPOLIA_RPC_URL=
 OPTIMISM_SEPOLIA_RPC_URL=
@@ -129,6 +130,7 @@ BASE_SEPOLIA_RPC_URL=
 ARBISCAN_API_KEY=
 OPTIMISM_API_KEY=
 BASESCAN_API_KEY=
+```
 
 I have commanded out several chains since Alchemy does not support them. If you are planning to use them, please uncomment them in hardhit.config.ts and utils.ts. I have change fork MyNFT.sol and change to MyToken.sol which represent ClownFish ETH (cfETH) ERC-20 token. I have also changed the SourceMinter.sol to have stake logic and mint cfETH on destination chain.
 
