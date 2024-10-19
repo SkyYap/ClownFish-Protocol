@@ -102,7 +102,7 @@ export default function MintWidget() {
         onSuccess={handleSuccess}
       >
         <TransactionButton
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-300"
+          className="w-full bg-[#088090] text-white p-2 rounded hover:bg-[#3dabba] disabled:bg-gray-300"
         >
         </TransactionButton>
         <TransactionStatus>
