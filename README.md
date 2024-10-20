@@ -54,6 +54,14 @@ Users can maintain exposure to:
 
 - Vaults (CeFi) or LP (DeFi) with high yield strategies
 
+## Deployed Contract List
+
+| Contract | Address |
+|----------|---------|
+| MyToken.sol | [0x0137ffaebbd1d7a8f8e3d798d9166f9ec3240a01](https://sepolia.basescan.org/address/0x0137ffaebbd1d7a8f8e3d798d9166f9ec3240a01#code) |
+| DestinationMinter.sol | [0xef2f13cf6b7da9b3439c20844bd4483a88c50743](https://sepolia.basescan.org/address/0xef2f13cf6b7da9b3439c20844bd4483a88c50743#code) |
+| SourceMinter.sol | [0xFd9738619115cd4BcB8311597D5C3Df7eBf18488](https://sepolia-optimism.etherscan.io/address/0xFd9738619115cd4BcB8311597D5C3Df7eBf18488#code) |
+
 ## Frontend Setup
 
 To ensure all components work seamlessly, set the following environment variables in your `.env` file using `.env.local.example` as a reference.
@@ -304,6 +312,7 @@ depending on whether you filled the [`SourceMinter.sol`](./contracts/cross-chain
 - We use the [OnchainKit Early Adopter](https://github.com/neodaoist/onchainkit-early-adopter) contract written by neodaoist [[X]](https://x.com/neodaoist)
 - [Chainlink CCIP](https://docs.chain.link/ccip/ccip-overview)
 - Older branch of [ccip-cross-chain-nft](https://github.com/SkyYap/ccip-cross-chain-nft/tree/cross-chain-nft-minter-example)
+- Quicknode tutorial [How to Mint an NFT Across Different Blockchains using Chainlink CCIP](https://www.quicknode.com/guides/cross-chain/CCIP/cross-chain-nft#minting-nft)
 
 <br />
 
